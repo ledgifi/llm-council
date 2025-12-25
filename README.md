@@ -79,6 +79,61 @@ npm run dev
 
 Then open http://localhost:5173 in your browser.
 
+## Running with Docker
+
+The easiest way to run LLM Council is using Docker and Docker Compose.
+
+### Prerequisites
+- [Docker](https://docs.docker.com/get-docker/) installed
+- [Docker Compose](https://docs.docker.com/compose/install/) installed
+
+### Quick Start with Docker
+
+1. **Clone the repository** (if you haven't already)
+
+2. **Configure API Key**
+   ```bash
+   cp .env.example .env
+   # Edit .env and add your OpenRouter API key
+   ```
+
+3. **Build and run with Docker Compose**
+   ```bash
+   docker-compose up -d
+   ```
+
+4. **Access the application**
+   - Frontend: http://localhost:5173
+   - Backend API: http://localhost:8001
+
+5. **View logs**
+   ```bash
+   docker-compose logs -f
+   ```
+
+6. **Stop the application**
+   ```bash
+   docker-compose down
+   ```
+
+### Docker Build Details
+
+**Backend Container:**
+- Based on Python 3.12-slim
+- Uses uv for fast dependency installation
+- Runs as non-root user for security
+- Exposes port 8001
+- Stores conversation data in `/app/data` (mounted as volume)
+
+**Frontend Container:**
+- Multi-stage build with Node 20 Alpine
+- Production build served with nginx
+- Optimized with gzip compression
+- Exposes port 80 (mapped to 5173 on host)
+
+**Data Persistence:**
+Conversation data is persisted in the `./data` directory on your host machine, which is mounted into the backend container.
+
 ## Tech Stack
 
 - **Backend:** FastAPI (Python 3.10+), async httpx, OpenRouter API
